@@ -8,6 +8,8 @@ import { sendVerificationEmail,
     sendResetSuccessEmail
  } from "../mailtrap/email.js";
 
+import chatModel  from "../models/chatModel.js";
+
 export const signup = async (req, res) => {
   const { email, password, name } = req.body;
 
@@ -108,7 +110,7 @@ export const login = async (req, res) => {
 
     generateTokenAndSetcookie(res, user._id);
 
-    user.lastlogin = new Date();
+    user.loginastLogin = new Date();
     await user.save();
 
     res.status(200).json({
@@ -237,4 +239,31 @@ export const checkAuth = async (req, res) => {
         console.log("Error in checkAuth", error);
         res.status(400).json({success: false, message: error.message});
     }
+}
+export const chatResponse = async (req, res) => {
+  const { email,chat, response } = req.body;
+  try {
+    const newChat = new chatModel({
+      email,
+      chat,
+      response,
+    });
+    const savedChat = await newChat.save();
+    res.status(200).json({ success: true, data: savedChat });
+
+  } catch (error) {
+    console.log("Error in chatResponse:", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+}
+
+export const getChat = async (req, res) => {
+  try {
+    const email = req.body.email;
+    const chat = await chatModel.find({email});
+    res.status(200).json({ success: true, data: chat });
+  } catch (error) {
+    console.log("Error in getChat:", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
 }

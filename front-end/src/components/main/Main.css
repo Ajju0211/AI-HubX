@@ -1,3 +1,4 @@
+/* Main container */
 .main {
     flex: 1;
     min-height: 100vh;
@@ -7,15 +8,23 @@
     flex-direction: column;
     align-items: center;
     font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #2d3748, #4a5568, #2b6cb0); 
 }
+
+/* Logout button */
 .main .logout {
     position: relative;
     color: #463e3e;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-
 }
+
+.main .logout:hover {
+    background-color: #e2e8f0; /* Slight hover effect */
+}
+
+/* Navigation bar */
 .main .nav {
     display: flex;
     align-items: center;
@@ -33,6 +42,7 @@
     border-radius: 50%;
 }
 
+/* Main container for content */
 .main-container {
     max-width: 900px;
     margin: 0 auto;
@@ -40,6 +50,7 @@
     width: 100%;
 }
 
+/* Greeting Text */
 .main .greet {
     margin: 30px 0;
     font-size: 48px;
@@ -55,6 +66,7 @@
     -webkit-text-fill-color: transparent;
 }
 
+/* Cards Section */
 .main .main-container .cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -95,6 +107,7 @@
     font-weight: 400;
 }
 
+/* Bottom search bar */
 .main-botton {
     position: fixed;
     bottom: 0;
@@ -138,6 +151,7 @@
     gap: 10px;
 }
 
+/* Bottom info text */
 .main .bottom-info {
     font-size: 12px;
     margin: 15px auto;
@@ -146,6 +160,7 @@
     color: #718096;
 }
 
+/* Results Section */
 .result {
     padding: 0px 5%;
     max-height: 70vh;
@@ -183,6 +198,7 @@
     color: #333;
 }
 
+/* Loader styles */
 .loader {
     width: 100%;
     display: flex;
@@ -208,13 +224,6 @@
     100% {
         background-position: 800px 0px;
     }
-}
-
-.result-data p {
-    font-size: 16px;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.6;
-    color: #2d3748;
 }
 
 /* Styling for the <pre> element (code container) */

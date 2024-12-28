@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-import router from "./routes/authRoute.js";
+import authRouter from "./routes/authRoute.js";
+import chatRouter from "./routes/chatRoute.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { connectDB } from "./DB/connectDB.js";
@@ -18,7 +19,9 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());  // allows us to parse incoming requests with JSON payloads
 
-app.use("/api/auth", router);
+app.use("/api/auth", authRouter);
+app.use("/api/chat", chatRouter);
+
 
 
 

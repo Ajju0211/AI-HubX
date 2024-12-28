@@ -24,10 +24,11 @@ export const assets = {
     compass_icon,
     gallery_icon,
     mic_icon,
-    user_icon,
     youtube_icon,
     message_icon,
     code_icon,
     send_icon,
-    gemini_icon
+    gemini_icon,
+    user_icon,
+
 }

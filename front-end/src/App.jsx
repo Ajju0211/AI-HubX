@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import FloatingShape from "./components/FloatingShape";
+import FloatingShape from "./components/FloatingShape"; // Make sure this path is correct
 
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
@@ -52,8 +52,32 @@ function App() {
   return (
     <div
       className="min-h-screen bg-gradient-to-br
-    from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden"
+    from-gray-900 via-gray-900 to-gray-900 flex items-center justify-center relative overflow-hidden"
     >
+      {/* FloatingShape component */}
+      <FloatingShape 
+        color="bg-red-500" 
+        size="w-32 h-32" 
+        top="10%" 
+        left="15%" 
+        delay={0.5}
+      />
+      
+      <FloatingShape 
+        color="bg-blue-500" 
+        size="w-24 h-24" 
+        top="50%" 
+        left="50%" 
+        delay={2}
+      />
+      
+      <FloatingShape 
+        color="bg-green-500" 
+        size="w-20 h-20" 
+        top="80%" 
+        left="70%" 
+        delay={1}
+      />
       <Routes>
         <Route
           path="/"

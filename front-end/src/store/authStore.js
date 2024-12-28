@@ -3,6 +3,7 @@ import axios from "axios";
 
 // Updated to correct the port number
 const API_URL = import.meta.env.MODE === "development" ? "http://localhost:3000/api/auth" : "/api/auth";
+const API_URL_CHAT = import.meta.env.MODE === "development" ? "http://localhost:3000/api/chat" : "/api/chat";
 
 // Ensure credentials are always sent with requests
 axios.defaults.withCredentials = true;
@@ -14,6 +15,7 @@ export const useAuthStore = create((set) => ({
   isLoading: false,
   isCheckingAuth: true,
   message: null,
+  chates: null,
 
   signup: async (email, password, name) => {
     set({ isLoading: true, error: null });
@@ -97,6 +99,31 @@ export const useAuthStore = create((set) => ({
     try {
       const response = await axios.post(`${API_URL}/reset-password/${token}`, { password }, { withCredentials: true });
       set({ message: response.data.message, isLoading: false });
+    } catch (error) {
+      set({
+        isLoading: false,
+        error: error.response?.data?.message || "Error resetting password",
+      });
+      throw error;
+    }
+  },
+
+  chatResponse: async (email,chat,response) => {
+    try {
+      const res = await axios.post(`${API_URL_CHAT}/chat-response`, { email, chat, response });
+    } catch (error) {
+      set({
+        isLoading: false,
+        error: error.response?.data?.message || "Error resetting password",
+      });
+      throw error;
+    }
+  },
+
+  getChat: async (email) => {
+    try {
+      const res = await axios.post(`${API_URL_CHAT}/get-chat`, { email });
+      set({ chates: res.data });
     } catch (error) {
       set({
         isLoading: false,
