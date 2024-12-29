@@ -2,12 +2,10 @@
   "name": "gemini-clone-website",
   "version": "1.0.0",
   "main": "index.js",
+  
   "scripts": {
-    "install": "npm install --prefix back-end && npm install --prefix front-end",
-    "build": "npm run build --prefix front-end",
-    "start": "npm run start:server",
-    "start:server": "npm start --prefix back-end",
-    "postinstall": "npm run install && npm run build"
+    "build": "npm install --prefix back-end && npm install --prefix front-end  && npm run build --prefix front-end",
+    "start": "npm run start --prefix back-end"
   },
   "author": "",
   "license": "ISC",
