@@ -10,7 +10,6 @@ const Profile = () => {
     name: user.name,
     email: user.email,
     username: "johndoe123",
-    joined: "Jan 1, 2023",
     membership: "Premium",
     profilePicture: assets.user_icon, // Default profile picture
   });
@@ -44,8 +43,6 @@ const Profile = () => {
         {/* User Details */}
         <div className="mt-6">
           <div className="flex items-center justify-between text-sm mb-3">
-            <span className="text-gray-400">lastLogin:</span>
-            <span className="text-white">{profile.joined}</span>
           </div>
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-400">Membership:</span>

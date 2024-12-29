@@ -1,28 +1,13 @@
 {
-  "name": "authentication",
+  "name": "gemini-clone-website",
   "version": "1.0.0",
-  "description": "the first authenctication project",
-  "main": "back-end/index.js",
-  "type": "module",
+  "main": "index.js",
+  
   "scripts": {
-    "dev": "nodemon index.js"
+    "build": "npm install --prefix back-end && npm install --prefix front-end  && npm run build --prefix front-end",
+    "start": "npm run start --prefix back-end"
   },
-  "author": "Ajay singh",
+  "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@getbrevo/brevo": "^1.0.1",
-    "bcryptjs": "^2.4.3",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "crypto": "^1.0.1",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.2",
-    "jsonwebtoken": "^9.0.2",
-    "mailtrap": "^3.4.0",
-    "mongodb": "^6.9.0",
-    "mongoose": "^8.7.0",
-    "nodemon": "^3.1.7",
-    "path": "^0.12.7",
-    "sib-api-v3-sdk": "^8.5.0"
-  }
+  "description": ""
 }

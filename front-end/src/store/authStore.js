@@ -16,6 +16,8 @@ export const useAuthStore = create((set) => ({
   isCheckingAuth: true,
   message: null,
   chates: null,
+  isVerified: false,
+  
 
   signup: async (email, password, name) => {
     set({ isLoading: true, error: null });
@@ -74,7 +76,7 @@ export const useAuthStore = create((set) => ({
 		withCredentials: true
 	  });
 	  
-      set({ user: response.data.user, isAuthenticated: true, isCheckingAuth: false });
+      set({ user: response.data.user,isVerified: response.data.user.isVerified, isAuthenticated: true, isCheckingAuth: false });
     } catch (error) {
       set({ error: null, isCheckingAuth: false, isAuthenticated: false });
     }

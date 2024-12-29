@@ -16,13 +16,14 @@ import { useEffect } from "react";
 
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, isVerified,user } = useAuthStore();
 
-  if (!isAuthenticated) {
+
+  if (!isAuthenticated || !user) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!user.isVerified) {
+  if (isVerified) {
     return <Navigate to="/verify-email" replace />;
   }
 
@@ -114,7 +115,7 @@ function App() {
         />
 
         <Route
-          path="/reset-password/:token"
+          path="/api/auth/reset-password/:token"
           element={
             <RedirectAuthenticatedUser>
               <ResetPasswordPage />

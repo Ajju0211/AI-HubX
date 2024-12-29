@@ -6,7 +6,7 @@ export const generateTokenAndSetcookie = (res, userId) => {
         expiresIn: "7d",
     });
 
-    console.log(token);
+
     // Set the cookie on the response object
     res.cookie("token", token, {
         httpOnly: true,
