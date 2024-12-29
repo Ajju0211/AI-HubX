@@ -108,9 +108,10 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  chatResponse: async (email,chat,response) => {
+  chatResponse: async (user_id,chat,response) => {
     try {
-      const res = await axios.post(`${API_URL_CHAT}/chat-response`, { email, chat, response });
+      const res = await axios.post(`${API_URL_CHAT}/chat-response`, { user_id, chat, response });
+      console.log(res.data);
     } catch (error) {
       set({
         isLoading: false,
@@ -120,10 +121,11 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  getChat: async (email) => {
+  getChat: async (user_id) => {
     try {
-      const res = await axios.post(`${API_URL_CHAT}/get-chat`, { email });
-      set({ chates: res.data });
+      const res = await axios.post(`${API_URL_CHAT}/get-chat`, { user_id });
+      const data = res.data;
+      set({ chates: data });
     } catch (error) {
       set({
         isLoading: false,

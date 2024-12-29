@@ -8,7 +8,7 @@ import { sendVerificationEmail,
     sendResetSuccessEmail
  } from "../mailtrap/email.js";
 
-import chatModel  from "../models/chatModel.js";
+import { chatModel } from "../models/chatModel.js";
 
 export const signup = async (req, res) => {
   const { email, password, name } = req.body;
@@ -59,6 +59,7 @@ export const verifyEmail = async (req, res) => {
   const { code } = req.body;
 
   try {
+    // Find user by verification code and ensure the token has not expired
     const user = await User.findOne({
       verificationToken: code,
       verificationTokenExpriresAT: { $gt: Date.now() },
@@ -70,11 +71,20 @@ export const verifyEmail = async (req, res) => {
         .json({ message: "Invalid or expired verification code" });
     }
 
+    // Check if the verification token is expired and delete if needed
+    const expirationTime = user.verificationTokenExpriresAT;
+    if (Date.now() - expirationTime > 60000) { // 1 minute = 60000 ms
+      await User.deleteOne({ _id: user._id }); // Delete user if expired
+      return res.status(400).json({ message: "Verification code expired. User deleted." });
+    }
+
+    // Mark the user as verified if the token is valid
     user.isVerified = true;
     user.verificationToken = undefined;
     user.verificationTokenExpriresAT = undefined;
     await user.save();
 
+    // Send a welcome email after successful verification
     await sendWelcomeEmail(user.email, user.name);
 
     res.status(200).json({
@@ -86,9 +96,10 @@ export const verifyEmail = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).json({ message: error });
+    res.status(400).json({ message: error.message || error });
   }
 };
+
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -157,7 +168,7 @@ export const forgotPassword = async (req, res) => {
 
         //send email
 
-        await sendPasswordResetEmail(user.email, `${process.env.CLLENT_URL}/reset-password/${resetToken}`);
+        await sendPasswordResetEmail(user.email, `${process.env.CLLENT_URL}reset-password/${resetToken}`);
 
         res.status(200).json({
             success: true,
@@ -187,9 +198,6 @@ export const resetPassword = async (req, res) => {
         if (!user) {
             return res.status(400).json({ error: "Password reset token is invalid or has expired." });
         }
-        
-        // Proceed with allowing the user to reset their password
-        
 
         if(!user) {
             res.status(400).json({
@@ -240,14 +248,26 @@ export const checkAuth = async (req, res) => {
         res.status(400).json({success: false, message: error.message});
     }
 }
+
 export const chatResponse = async (req, res) => {
-  const { email,chat, response } = req.body;
+  const { user_id, chat, response } = req.body;
   try {
+    if (!user_id) {
+      throw new Error("Missing required fields: id");
+    }
+    else if(!chat){
+      throw new Error("Missing required fields: chat");
+    }
+    else if(!response){
+      throw new Error("Missing required fields: response");
+    }
+
     const newChat = new chatModel({
-      email,
+      user_id,
       chat,
       response,
     });
+
     const savedChat = await newChat.save();
     res.status(200).json({ success: true, data: savedChat });
 
@@ -259,8 +279,12 @@ export const chatResponse = async (req, res) => {
 
 export const getChat = async (req, res) => {
   try {
-    const email = req.body.email;
-    const chat = await chatModel.find({email});
+    const { user_id } = req.body;
+    if (!user_id) {
+      throw new Error("Missing required field: id");
+    }
+
+    const chat = await chatModel.find({ user_id });
     res.status(200).json({ success: true, data: chat });
   } catch (error) {
     console.log("Error in getChat:", error);

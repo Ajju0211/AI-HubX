@@ -32,4 +32,4 @@ const userSchema = new mongoose.Schema({
     verificationTokenExpriresAT: Date
 }, {timestamps: true});
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model("Userdb", userSchema);

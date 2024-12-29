@@ -1,44 +1,34 @@
 import React, { useContext, useState, useEffect } from "react";
-import { FaPaperPlane,  FaUserCircle } from "react-icons/fa";
+import { FaPaperPlane, FaUserCircle } from "react-icons/fa";
 import { Context } from "../context/context";
 import { useAuthStore } from "../store/authStore";
 import ProfileInfo from "./ProfileInfo";
 
 const Main = () => {
-  const { user,chatResponse,getChat,chates } = useAuthStore();
-  const { onSent, recentPrompt, showResult, loading, resultData, setInput, input } = useContext(Context);
+  const { user, chatResponse, getChat } = useAuthStore();
+  const { onSent, recentPrompt, oldPrompt, oldChat, formatResponse, showResult, loading, resultData, setInput, input } = useContext(Context);
   const [profile, setProfile] = useState(false);
 
-  const formatResponse = (text) => {
-    return text
-      .replace(/## (.+?)\n/g, '<h1 class="text-2xl font-bold mb-2">$1</h1>')
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/^\* (.+)$/gm, '<li>$1</li>')
-      .replace(
-        /```([\s\S]+?)```/g,
-        '<pre class="bg-gray-900 text-green-400 p-4 rounded-md overflow-x-auto"><code class="font-mono">$1</code></pre>'
-      )
-      .replace(
-        /(\[(.*?)\]\((.*?)\))/g,
-        '<a href="$3" target="_blank" rel="noopener noreferrer" class="text-green-500 underline">$2</a>'
-      )
-      .replace(/\n/g, '<br />')
-      .replace(/<\/li><br \/>/g, '</li>');
-  };
+
 
   useEffect(() => {
-    getChat(user.email);
-   
-  }, [getChat]);
-  console.log(chates);
+    //Becouse its personal project so I used setInterval to get chat data every 1 second
+    const interval = setInterval(() => {
 
+      getChat(user._id);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [getChat, user._id]);
+
+  const handler = async (input, resultData) => {
+    await onSent(input);
+    if(resultData){
+    chatResponse(user._id, input, resultData);}
+  }
 
   const result = formatResponse(resultData);
-
-  const handler = async() => {
-    await onSent(input);
-    chatResponse(user.email,input,resultData);
-  }
+  const oldchat = formatResponse(oldChat);
 
   return (
     <div className="main min-h-screen w-screen bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 flex flex-col items-center">
@@ -65,40 +55,40 @@ const Main = () => {
         {!showResult ? (
           <div className="greeting text-white text-center mt-8">
             <h2 className="text-3xl font-semibold">
-              Hello, <span>{user.name.toUpperCase()}</span>
+              Hello, <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-[#7460d6] animate-gradient-flash bg-[length:400%_200%]" >{user.name.toUpperCase()}</span>
             </h2>
             <p className="text-lg mt-2">How can I help you today?</p>
           </div>
         ) : (
-          <div className="result-container w-full bg-gray-800 text-white p-4 rounded-lg shadow-md mt-6 max-h-[60vh] overflow-y-auto">
+          <div className="result-container w-full bg-gray-800 text-white p-4 rounded-lg shadow-md mt-6 max-h-[60vh] md:max-h-[70vh] overflow-y-auto">
             <div className="prompt flex items-center mb-4">
               <FaUserCircle className="text-xl mr-2" />
-              <span className="font-semibold">{recentPrompt}</span>
+              <span className="font-semibold">{recentPrompt ? recentPrompt : oldPrompt}</span>
             </div>
             {loading ? (
               <div className="loading text-center">Loading...</div>
             ) : (
-              <div dangerouslySetInnerHTML={{ __html: result }} />
+              <div dangerouslySetInnerHTML={{ __html: result ? result : oldchat }} />
             )}
           </div>
         )}
       </div>
 
-      <div>
-        <div className="w-full max-w-4xl border border-gray-700 bg-gray-900 p-2 rounded-lg flex items-center">
+      <div className="flex flex-col items-center w-full p-4">
+        <div className="w-full xl:w-[600px] max-w-4xl border border-gray-700 bg-gray-900 p-2 rounded-lg flex justify-center items-center">
           <input
             type="text"
-            placeholder="Message Claude"
+            placeholder="Message Gemini..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             className="flex-grow px-3 py-2 bg-transparent text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-400"
           />
 
-          <button className="ml-2 p-2 text-gray-400 hover:bg-gray-800 rounded-md" onClick={() => handler(input)}>
-            <FaPaperPlane className="h-4 w-4" />
+          <button className="ml-2 p-2 text-gray-400 hover:bg-gray-800 rounded-md" onClick={() => handler(input, resultData)}>
+            <FaPaperPlane className="h-4 w-4 xl:h-6 xl:w-6" />
           </button>
         </div>
-        <p className="text-sm text-gray-400 mt-2">Claude always aims to be helpful and accurate.</p>
+        <p className="text-sm text-gray-400 mt-2">Gemini always aims to be helpful and accurate.</p>
       </div>
     </div>
   );

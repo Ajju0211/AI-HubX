@@ -5,9 +5,11 @@ import chatRouter from "./routes/chatRoute.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { connectDB } from "./DB/connectDB.js";
+import path from "path";
 
 dotenv.config();
 
+const __dirname = path.resolve();
 const app = express();
 app.use(cors({
     origin: "http://localhost:5173",
@@ -15,6 +17,16 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "./front-end/dist")));
+  
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "./front-end", "dist", "index.html"));
+    });
+  }
+
+
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());  // allows us to parse incoming requests with JSON payloads

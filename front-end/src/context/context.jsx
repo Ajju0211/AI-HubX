@@ -6,32 +6,29 @@ export const Context = createContext();
 const ContextProvider = (props) => {
     const [input, setInput] = useState("");
     const [recentPrompt, setRecentPrompt] = useState("");
-    const [prevPrompt, setPrevprompts] = useState("");
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
     const [resultData, setResultData] = useState("");
-
-    // Function to format response text
+    const [oldChat, setOldChat] = useState("");
+    const [oldPrompt, setOldPrompt] = useState("");
+    
     const formatResponse = (text) => {
-        return text;
-    };
-    
+        return text
+          .replace(/## (.+?)\n/g, '<h1 class="text-2xl font-bold mb-2">$1</h1>')
+          .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+          .replace(/^\* (.+)$/gm, '<li>$1</li>')
+          .replace(
+            /```([\s\S]+?)```/g,
+            '<pre class="bg-gray-900 text-green-400 p-4 rounded-md overflow-x-auto"><code class="font-mono">$1</code></pre>'
+          )
+          .replace(
+            /(\[(.*?)\]\((.*?)\))/g,
+            '<a href="$3" target="_blank" rel="noopener noreferrer" class="text-green-500 underline">$2</a>'
+          )
+          .replace(/\n/g, '<br />')
+          .replace(/<\/li><br \/>/g, '</li>');
+      };
 
-    // Function to add typing effect
-    const delayPara = (index, nextChunk) => {
-        setTimeout(() => {
-            setResultData((prev) => prev + nextChunk);
-        }, 75 * index);
-    };
-    
-    const displayTextWithDelay = (formattedText) => {
-        const words = formattedText.match(/<.*?>|[\w\W]+?(?=<|$)/g); // Match tags and text separately
-        setResultData(""); // Clear previous result data
-        words.forEach((word, index) => {
-            delayPara(index, word); // Preserve spaces and formatting
-        });
-    };
-    
     const onSent = async (prompt) => {
         setLoading(true);
         setShowResult(true);
@@ -39,8 +36,8 @@ const ContextProvider = (props) => {
 
         try {
             const responses = await run(input);
-            const formattedResponse = formatResponse(responses);
-            displayTextWithDelay(formattedResponse);
+            setResultData(responses);
+            
         } catch (error) {
             console.error("Error fetching response:", error);
         } finally {
@@ -49,9 +46,11 @@ const ContextProvider = (props) => {
         }
     };
 
+    const setResult = () => {
+        setShowResult(true);
+    }
+
     const contextValue = {
-        prevPrompt,
-        setPrevprompts,
         onSent,
         setRecentPrompt,
         recentPrompt,
@@ -60,6 +59,13 @@ const ContextProvider = (props) => {
         resultData,
         input,
         setInput,
+        setResult,
+        formatResponse,
+        oldChat,
+        setOldChat,
+        oldPrompt,
+        setOldPrompt
+
     };
 
     return (

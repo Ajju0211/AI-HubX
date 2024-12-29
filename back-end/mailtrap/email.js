@@ -3,6 +3,7 @@ import {
   VERIFICATION_EMAIL_TEMPLATE,
   PASSWORD_RESET_REQUEST_TEMPLATE,
   WELOCME_EMAIL_TEMPLATE,
+  PASSWORD_RESET_SUCCESS_TEMPLATE,
 } from "./emailTemplates.js";
 import dotenv from "dotenv";
 
@@ -105,7 +106,6 @@ export const sendPasswordResetEmail = async (email, resetUrl) => {
     sendSmtpEmail.to = [
       {
         email: email,
-        name: name,
       },
     ];
     sendSmtpEmail.sender = {
@@ -146,7 +146,6 @@ export const sendResetSuccessEmail = async (email) => {
     sendSmtpEmail.to = [
       {
         email: email,
-        name: name,
       },
     ];
     sendSmtpEmail.sender = {

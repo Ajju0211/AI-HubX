@@ -7,7 +7,7 @@ export const verifyToken = (req, res, next) => {
     const token = req.cookies.token;
 
     if(!token){
-        console.log(token);
+        
         return res.status(401).json({
             success: false,
             message: "Acceess denied"
