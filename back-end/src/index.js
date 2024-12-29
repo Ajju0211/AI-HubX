@@ -11,10 +11,12 @@ dotenv.config();
 
 const __dirname = path.resolve();
 const app = express();
+
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true,
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -25,6 +27,7 @@ if (process.env.NODE_ENV === "production") {
       res.sendFile(path.join(__dirname, "../front-end", "dist", "index.html"));
     });
   }
+
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());  // allows us to parse incoming requests with JSON payloads

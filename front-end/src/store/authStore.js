@@ -16,14 +16,14 @@ export const useAuthStore = create((set) => ({
   isCheckingAuth: true,
   message: null,
   chates: null,
-  isVerified: false,
+  isVerified: null,
   
 
   signup: async (email, password, name) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${API_URL}/signup`, { email, password, name }, { withCredentials: true });
-      set({ user: response.data.user, isAuthenticated: true, isLoading: false });
+      set({ user: response.data.user,isVerified: response.data.user.isVerified, isAuthenticated: true, isLoading: false });
     } catch (error) {
       set({ error: error.response?.data?.message || "Error signing up", isLoading: false });
       throw error;
@@ -37,6 +37,7 @@ export const useAuthStore = create((set) => ({
       set({
         isAuthenticated: true,
         user: response.data.user,
+        isVerified: response.data.user.isVerified,
         error: null,
         isLoading: false,
       });
@@ -61,7 +62,7 @@ export const useAuthStore = create((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${API_URL}/verify-email`, { code }, { withCredentials: true });
-      set({ user: response.data.user, isAuthenticated: true, isLoading: false });
+      set({ user: response.data.user,isVerified: response.data.user.isVerified, isAuthenticated: true, isLoading: false });
       return response.data;
     } catch (error) {
       set({ error: error.response?.data?.message || "Error verifying email", isLoading: false });
@@ -72,11 +73,11 @@ export const useAuthStore = create((set) => ({
   checkAuth: async () => {
     set({ isCheckingAuth: true, error: null });
     try {
-      const response = await axios.get(`${API_URL}/check-auth`, {
+      const response = await axios.post(`${API_URL}/check-auth`, {
 		withCredentials: true
 	  });
 	  
-      set({ user: response.data.user,isVerified: response.data.user.isVerified, isAuthenticated: true, isCheckingAuth: false });
+      set({ user: response.data.user, isVerified: response.data.user.isVerified, isAuthenticated: true, isCheckingAuth: false });
     } catch (error) {
       set({ error: null, isCheckingAuth: false, isAuthenticated: false });
     }
