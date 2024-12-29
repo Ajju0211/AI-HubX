@@ -20,7 +20,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "development") {
     app.use(express.static(path.join(__dirname, "../front-end/dist")));
   
     app.get("*", (req, res) => {
