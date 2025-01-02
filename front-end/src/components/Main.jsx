@@ -3,6 +3,7 @@ import { FaPaperPlane, FaUserCircle } from "react-icons/fa";
 import { Context } from "../context/context";
 import { useAuthStore } from "../store/authStore";
 import ProfileInfo from "./ProfileInfo";
+import { use } from "react";
 
 const Main = () => {
   const { user, chatResponse, getChat } = useAuthStore();
@@ -11,21 +12,18 @@ const Main = () => {
 
 
 
-  useEffect(() => {
-    //Becouse its personal project so I used setInterval to get chat data every 1 second
-    const interval = setInterval(() => {
-
-      getChat(user._id);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [getChat, user._id]);
+ 
 
   const handler = async (input, resultData) => {
     await onSent(input);
     if(resultData){
-    chatResponse(user._id, input, resultData);}
+     await chatResponse(user._id, input, resultData);
+    getChat(user._id);}
   }
+   useEffect(() => {
+    getChat(user._id);
+    
+ }, []);
 
   const result = formatResponse(resultData);
   const oldchat = formatResponse(oldChat);
