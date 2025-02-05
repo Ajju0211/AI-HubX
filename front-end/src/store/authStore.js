@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import axios from "axios";
-import { useContext } from "react";
 
 // Updated to correct the port number
 const API_URL = import.meta.env.MODE === "development" ? "http://localhost:3000/api/auth" : "/api/auth";

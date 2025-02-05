@@ -40,7 +40,7 @@ export const login = async (req, res) => {
     generateTokenAndSetcookie(res, user._id);
 
     // Update last login date and save
-    user.lastLogin = new Date();
+    user.lastLogoin = new Date();
     await user.save();
 
     // Return response
