@@ -8,7 +8,6 @@ import {
   Globe,
   Shield,
 } from 'lucide-react';
-import Models from './models';
 
 const Main = () => {
 
@@ -143,7 +142,6 @@ const Main = () => {
       </div>
 
       <h4 className='text-gray-400 text-sm sm:text-xl text-center mt-10'>All Models</h4>
-      <Models />
      
       {/* Features Section */}
       <div className="mx-auto max-w-7xl px-6  p-8 rounded-[10px]">
