@@ -23,7 +23,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://inevoai.netlify.app",
     credentials: true,
 }));
 
