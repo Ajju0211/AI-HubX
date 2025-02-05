@@ -6,7 +6,7 @@ import FAQ from "../components/InevoComponent/FAQ";
 import Footer from "../components/InevoComponent/Footer";
 import GetStarted from "../components/InevoComponent/GetStarted";
 import { Outlet } from "react-router-dom";
-import ResetPasswordPage from "./ResetPasswordPage";
+
 
 const InovaAi = () => {
 

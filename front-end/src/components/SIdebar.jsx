@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Plus,
-  MessageSquare,
   Settings,
   HelpCircle,
   Menu

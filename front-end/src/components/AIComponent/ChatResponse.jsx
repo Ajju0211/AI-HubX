@@ -1,9 +1,8 @@
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
-import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs";
+
 import { Check, Copy } from "lucide-react";
-import { useState } from "react";
+
 import hljs from "highlight.js"; // Import highlight.js for language detection
 import { CodeBlock } from "react-code-block";
 import { useCopyToClipboard } from 'react-use';
