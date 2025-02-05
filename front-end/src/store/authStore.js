@@ -2,8 +2,8 @@ import { create } from "zustand";
 import axios from "axios";
 
 // Updated to correct the port number
-const API_URL = import.meta.env.MODE === "development" ? "http://localhost:3000/api/auth" : "/api/auth";
-const API_URL_CHAT = import.meta.env.MODE === "development" ? "http://localhost:3000/api/chat" : "/api/chat";
+const API_URL = "https://full-stack-gemini-clone-1.onrender.com/api/auth";
+const API_URL_CHAT = "https://full-stack-gemini-clone-1.onrender.com/api/auth"
 
 // Ensure credentials are always sent with requests
 axios.defaults.withCredentials = true;
@@ -42,7 +42,9 @@ export const useAuthStore = create((set) => ({
   login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/login`, { email, password }, { withCredentials: true });
+      const response = await axios.post(`${API_URL}/login`, { email, password },  {
+        withCredentials: true,
+    });
       set({
         isAuthenticated: true,
         user: response.data.user,
@@ -82,15 +84,23 @@ export const useAuthStore = create((set) => ({
   checkAuth: async () => {
     set({ isCheckingAuth: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/check-auth`, {
-        withCredentials: true
-      });
+      const response = await axios.post(
+        `${API_URL}/check-auth`, 
+        {}, // Empty body (if no data is needed)
+        { withCredentials: true } // Move `withCredentials` here
+      );
 
-      set({ user: response.data.user, isVerified: response.data.user.isVerified, isAuthenticated: true, isCheckingAuth: false });
+      set({ 
+        user: response.data.user, 
+        isVerified: response.data.user.isVerified, 
+        isAuthenticated: true, 
+        isCheckingAuth: false 
+      });
     } catch (error) {
-      set({ error: null, isCheckingAuth: false, isAuthenticated: false });
+      set({ error: error.response?.data?.message || "Authentication failed", isCheckingAuth: false, isAuthenticated: false });
     }
-  },
+},
+
 
   forgotPassword: async (email) => {
     set({ isLoading: true, error: null });
