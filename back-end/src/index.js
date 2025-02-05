@@ -49,11 +49,12 @@ app.use(express.json());
 app.use(cookieParser());
 
 if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../front-end/dist")));
+
+  app.use(express.static(path.join(__dirname, "front-end", "dist")));  // For Vite
   
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "../front-end", "dist", "index.html"));
-    });
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "front-end", "dist", "index.html")); // For Vite
+  });
   }
 
 const PORT = process.env.PORT || 3000;
