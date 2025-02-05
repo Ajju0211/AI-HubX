@@ -1,12 +1,12 @@
 import React, { useState } from "react";
+import { User, Settings, ArrowUpRight, LogOut } from "lucide-react";
 import { assets } from "../assets/assets";
 import { useAuthStore } from "../store/authStore";
 
 const Profile = () => {
-
-    const { user,logout } = useAuthStore();
-  // State for profile details
-  const [profile, setProfile] = useState({
+  const { user, logout } = useAuthStore();
+  
+  const [profile] = useState({
     name: user.name,
     email: user.email,
     username: "johndoe123",
@@ -14,49 +14,49 @@ const Profile = () => {
     profilePicture: assets.user_icon, // Default profile picture
   });
 
-  // Function to simulate changing the profile picture
-  const changeProfilePicture = () => {
-    setProfile({
-      ...profile,
-      profilePicture: assets.user_icon, // Example of another picture from assets
-    });
-  };
-
   const handleLogout = () => {
     logout();
   };
-
+  
   return (
-    <div className="absolute z-30 top-[90px] right-[10px] bg-gradient-to-br rounded-[40px] from-gray-900 via-gray-900 to-green-800 flex items-center justify-center">
-      <div className="bg-gray-800 text-white p-6 rounded-[40px] shadow-xl w-96">
-        {/* Profile Picture */}
-        <div className="flex flex-col gap-2 items-center">
-        <p className="text-gray-100 text-sm">{user.email}</p>
+    <div className="absolute z-30 top-[60px] right-[10px] bg-[#313131] text-white rounded-xl shadow-lg w-64">
+      <ul className="p-3 space-y-2">
+        {/* Profile Section */}
+        <li className="flex items-center gap-3 px-4 py-2">
           <img
             src={profile.profilePicture}
             alt="User Icon"
-            className="w-28 h-28 rounded-full border-4  hover:border-green-900  border-gray-500 shadow-lg"
+            className="w-10 h-10 rounded-full border border-gray-500"
           />
-          <h2 className="text-2xl font-semibold mt-4 font-sans space-x-1">Hi, {profile.name.toUpperCase()}!</h2>
-        </div>
-
-        {/* User Details */}
-        <div className="mt-6">
-          <div className="flex items-center justify-between text-sm mb-3">
+          <div>
+            <p className="text-sm font-semibold">{profile.name}</p>
+            <p className="text-xs text-gray-400">{profile.email}</p>
           </div>
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-400">Membership:</span>
-            <span className="text-blue-400">{profile.membership}</span>
-          </div>
-        </div>
+        </li>
 
-        {/* Actions */}
-        <div className="mt-6 flex flex-col space-y-4">
-          <button onClick={handleLogout} className="w-full py-2 rounded-md bg-gray-500 hover:bg-green-900 transition">
-            Logout
-          </button>
-        </div>
-      </div>
+        <hr className="border-gray-700" />
+
+        {/* Settings */}
+        <li className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800 rounded-md cursor-pointer">
+          <Settings className="w-5 h-5" />
+          <span>Settings</span>
+        </li>
+
+        {/* Membership */}
+        <li className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800 rounded-md cursor-pointer">
+          <ArrowUpRight className="w-5 h-5" />
+          <span>Upgrade Plan</span>
+        </li>
+
+        {/* Logout */}
+        <li
+          onClick={handleLogout}
+          className="flex items-center gap-3 px-4 py-2 hover:bg-gray-800 rounded-md cursor-pointer border-t border-gray-700 mt-1"
+        >
+          <LogOut className="w-5 h-5 text-red-400" />
+          <span className="text-red-400">Log Out</span>
+        </li>
+      </ul>
     </div>
   );
 };

@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root {
+    background: #000;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+@layer utilities {
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        display: none;
+    }
+  }

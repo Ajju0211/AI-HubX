@@ -10,10 +10,11 @@ const DashboardPage = () => {
 		logout();
 	};
 	return (
-		<div className="flex w-screen items-center justify-center h-screen">
+		<div className="flex w-screen items-center justify-center overflow-hidden h-screen">
 		<SIdebar/>
+		<div className="h-[100%] w-[100%]">
 		<Main/>
-		
+		</div>
 	  </div>
 	);
 };

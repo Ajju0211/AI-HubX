@@ -7,12 +7,69 @@ import { sendVerificationEmail,
     sendPasswordResetEmail,
     sendResetSuccessEmail
  } from "../mailtrap/email.js";
+import NodeRSA from "node-rsa";
+
 
 import { chatModel } from "../models/chatModel.js";
 
+const privateKey = process.env.PRIVATE_KEY;
+
+
+const key = new NodeRSA(privateKey);
+key.setOptions({ encryptionScheme: 'pkcs1' }); // Use pkcs1 instead of pkcs1oaep
+
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  console.log("Received Data:", { email, password });
+
+  try {
+    // Decrypt the email and password
+
+    // Search user by decrypted email
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+    // Compare the decrypted password with the user's stored password
+    const isPasswordCorrect = await bcryptjs.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+
+    // Generate token and set cookie (your custom function)
+    generateTokenAndSetcookie(res, user._id);
+
+    // Update last login date and save
+    user.lastLogin = new Date();
+    await user.save();
+
+    // Return response
+    res.status(200).json({
+      success: true,
+      message: "Logged in successfully",
+      user: {
+        ...user._doc,
+        password: undefined, // Do not send password in the response
+      },
+    });
+  } catch (error) {
+    console.error("Error logging in:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: `Error logging in: ${error.message}`,
+    });
+  }
+};
+
+
 export const signup = async (req, res) => {
   const { email, password, name } = req.body;
-
   try {
     if (!email || !password || !name) {
       res.status(400).json({ message: "All fields are required" });
@@ -22,14 +79,15 @@ export const signup = async (req, res) => {
     if (userAlreadyExists) {
       res.status(400).json({ message: "User already exists" });
     }
+    const decryptpassword = key.decrypt(password, "utf8");
 
-    const hashedPassword = await bcryptjs.hash(password, 10);
+    const hashedPassword = await bcryptjs.hash(decryptpassword, 10);
     const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
 
     const verificationTokenExpriresAT = Date.now() + 24 * 60 * 60 * 1000;
-
+    const decryptEmail = key.decrypt(email, "utf8");
     const user = new User({
-      email,
+      email: decryptEmail,
       password: hashedPassword,
       name,
       verificationToken,
@@ -101,43 +159,7 @@ export const verifyEmail = async (req, res) => {
 };
 
 
-export const login = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const user = await User.findOne({email});
-    if (!user) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid credentials",
-      });
-    }
-    const isPasswordCorrect = await bcryptjs.compare(password, user.password);
-    if(!isPasswordCorrect) {
-        return res.status(400).json({
-            success: false,
-            message: "Invalid credentials",
-        });
-    }
 
-    generateTokenAndSetcookie(res, user._id);
-
-    user.loginastLogin = new Date();
-    await user.save();
-
-    res.status(200).json({
-        success: true,
-        message: "Logged in successfully",
-        user: {
-            ...user._doc,
-            password: undefined,
-        },
-    });
-  } catch (error) {
-    console.log("Error logging in :", error);
-    throw new Error(`Error logging in: ${error}`);
-
-  }
-};
 export const logout = async (req, res) => {
   res.clearCookie("token");
   res.status(200).json({
@@ -250,33 +272,31 @@ export const checkAuth = async (req, res) => {
 }
 
 export const chatResponse = async (req, res) => {
-  const { user_id, chat, response } = req.body;
+
   try {
-    if (!user_id) {
-      throw new Error("Missing required fields: id");
+   
+    const { user_id, messageId, chat, response} = req.body;
+    if (!user_id || !chat || !response) {
+      throw new Error("Missing required fields");
     }
-    else if(!chat){
-      throw new Error("Missing required fields: chat");
-    }
-    else if(!response){
-      throw new Error("Missing required fields: response");
+    // Creating a chatSession to push more chats
+    let chatSession = await chatModel.findOne({ messageId });
+    
+    // User don't have chate Session it will create new one
+    
+    if(!chatSession) {
+      chatSession = new chatModel({ user_id, messageId, chats: [] });
     }
 
-    const newChat = new chatModel({
-      user_id,
-      chat,
-      response,
-    });
+    chatSession.chats.push({ chat, response})
 
-    const savedChat = await newChat.save();
-    res.status(200).json({ success: true, data: savedChat });
-
+    await chatSession.save();
+    res.status(200).json({ success: true, message: "Chat added successfully" });
   } catch (error) {
-    console.log("Error in chatResponse:", error);
-    res.status(400).json({ success: false, message: error.message });
+    console.error('Error adding chat:', error);
+    throw error;
   }
 }
-
 export const getChat = async (req, res) => {
   try {
     const { user_id } = req.body;

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Input from "../components/Input";
 import { Lock } from "lucide-react";
 import toast from "react-hot-toast";
+import FloatingShape from '../components/FloatingShape';
 
 const ResetPasswordPage = () => {
 	const [password, setPassword] = useState("");
@@ -39,39 +40,47 @@ const ResetPasswordPage = () => {
 			initial={{ opacity: 0, y: 20 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.5 }}
-			className='max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden'
+			className="absolute inset-0 flex items-center justify-center bg-[#0b0b0b] bg-opacity-80 backdrop-blur-md"
 		>
-			<div className='p-8'>
-				<h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text'>
+			<FloatingShape />
+			<FloatingShape top="20%"/>
+			<FloatingShape left="50%"/>
+			<FloatingShape left="80%" top="50%" />
+			<FloatingShape left="70%" top="80%" />
+			<FloatingShape left="20%" top="0%" />
+			<div className="max-w-md w-full bg-[#202021] border-[1px] border-[#6b6b6b] bg-opacity-90 rounded-2xl shadow-lg overflow-hidden p-8">
+				<h2 className="text-3xl font-semibold mb-6 text-center text-white">
 					Reset Password
 				</h2>
-				{error && <p className='text-red-500 text-sm mb-4'>{error}</p>}
-				{message && <p className='text-green-500 text-sm mb-4'>{message}</p>}
+				{error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+				{message && <p className="text-green-500 text-sm mb-4">{message}</p>}
 
 				<form onSubmit={handleSubmit}>
 					<Input
 						icon={Lock}
-						type='password'
-						placeholder='New Password'
+						type="password"
+						placeholder="New Password"
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 						required
+						className="bg-gray-800 text-white placeholder-gray-400 border border-gray-700 focus:border-gray-500 focus:ring-1 focus:ring-gray-600 rounded-lg w-full p-3 mb-4"
 					/>
 
 					<Input
 						icon={Lock}
-						type='password'
-						placeholder='Confirm New Password'
+						type="password"
+						placeholder="Confirm New Password"
 						value={confirmPassword}
 						onChange={(e) => setConfirmPassword(e.target.value)}
 						required
+						className="bg-gray-800 text-white placeholder-gray-400 border border-gray-700 focus:border-gray-500 focus:ring-1 focus:ring-gray-600 rounded-lg w-full p-3 mb-6"
 					/>
 
 					<motion.button
 						whileHover={{ scale: 1.02 }}
 						whileTap={{ scale: 0.98 }}
-						className='w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200'
-						type='submit'
+						className="w-full py-3 px-4 bg-gray-700 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-200"
+						type="submit"
 						disabled={isLoading}
 					>
 						{isLoading ? "Resetting..." : "Set New Password"}
@@ -81,4 +90,5 @@ const ResetPasswordPage = () => {
 		</motion.div>
 	);
 };
+
 export default ResetPasswordPage;

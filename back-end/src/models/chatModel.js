@@ -1,22 +1,17 @@
 import mongoose from 'mongoose';
 
-const chatSchema = new mongoose.Schema(
-  {
-    user_id: {
-      type: String,
-      required: true,
-    },
-    chat: {
-      type: String,
-      required: true,
-    },
-    response: {
-      type: String,
-      required: true,
-    },
-  },
-  { timestamps: true }
-);
+const messageSchema = new mongoose.Schema({
+  chat: {type: String, required: true}, // User's message
+  response: { type: String, required: true}, // AI/Bot's response
+  timestamp: {type: Date, default: Date.now} // Time of message
+})
 
-export const chatModel = mongoose.model('Chate', chatSchema);
+const chatSchema = new mongoose.Schema({
+  user_id: {type: mongoose.Schema.Types.ObjectId, required: true}, // User's ID
+  messageId: {type: String, required: true}, // Unique message ID for each chat session
+  chats: [messageSchema] // Array of messages
+
+}, {timesstamp: {type: Date, default: Date.now}});
+
+export const chatModel = mongoose.model('chat', chatSchema);
 
