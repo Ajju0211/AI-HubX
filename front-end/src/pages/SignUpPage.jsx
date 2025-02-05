@@ -4,21 +4,12 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
 import { useAuthStore } from "../store/authStore";
-import JSEncrypt from "jsencrypt";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [encryptedEmail, setEncryptedEmail] = useState("");
-  const [encryptedPassword, setEncryptedPassword] = useState("");
-
-  const publicKey = `-----BEGIN PUBLIC KEY-----
-MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgH+1IolCICaVn0opjJfgVzt0gxda
-Ee+HogazUGngmDNgFCgCs42qMABH/eC/uAhGkAWkfp30HS8qHaO3hY2FA2B0s7Au
-oNm73jynIfocVoT//zZu1bgKujPnYKuioKHXxkoyh0DSk4so6gTCmCfvrIcQeSH3
-ZwbbEoq7dQQZ8+BhAgMBAAE=
------END PUBLIC KEY-----`;
+  
   const navigate = useNavigate();
 
   const { signup, error, isLoading, setScrollHide } = useAuthStore();
@@ -41,10 +32,6 @@ ZwbbEoq7dQQZ8+BhAgMBAAE=
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const encrypt = new JSEncrypt();
-      encrypt.setPublicKey(publicKey);
-      setEncryptedEmail(encrypt.encrypt(email));
-      setEncryptedPassword(encrypt.encrypt(password));
       await signup(email, password, name);
       navigate("/verify-email");
     } catch (error) {

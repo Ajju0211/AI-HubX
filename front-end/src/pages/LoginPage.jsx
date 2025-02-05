@@ -2,15 +2,12 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock, Loader } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import JSEncrypt from "jsencrypt";
 import { useAuthStore } from "../store/authStore";
 
 const LoginPage = () => {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [encryptedEmail, setEncryptedEmail] = useState("");
-	const [encryptedPassword,setEncryptedPassword] = useState("");
 
 	//This is for encrypting the email and password
 
@@ -22,11 +19,7 @@ const LoginPage = () => {
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
-		const encrypt = new JSEncrypt();
-		encrypt.setPublicKey(publicKey);
 
-		setEncryptedEmail(encrypt.encrypt(email, "base64"));
-		setEncryptedPassword(encrypt.encrypt(password,"base64"));
 		await login(email, password);
 	};
 

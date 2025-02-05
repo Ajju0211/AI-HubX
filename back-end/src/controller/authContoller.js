@@ -7,16 +7,10 @@ import { sendVerificationEmail,
     sendPasswordResetEmail,
     sendResetSuccessEmail
  } from "../mailtrap/email.js";
-import NodeRSA from "node-rsa";
+
 
 
 import { chatModel } from "../models/chatModel.js";
-
-const privateKey = process.env.PRIVATE_KEY;
-
-
-const key = new NodeRSA(privateKey);
-key.setOptions({ encryptionScheme: 'pkcs1' }); // Use pkcs1 instead of pkcs1oaep
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -71,45 +65,60 @@ export const login = async (req, res) => {
 export const signup = async (req, res) => {
   const { email, password, name } = req.body;
   try {
+    // Validate input
     if (!email || !password || !name) {
-      res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({ message: "All fields are required" });
     }
 
+    // Check if user already exists
     const userAlreadyExists = await User.findOne({ email });
     if (userAlreadyExists) {
-      res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
-    const decryptpassword = key.decrypt(password, "utf8");
 
-    const hashedPassword = await bcryptjs.hash(decryptpassword, 10);
+    // Decrypt password
+    const decryptedPassword = key.decrypt(password, "utf8");
+
+    // Hash the password
+    const hashedPassword = await bcryptjs.hash(decryptedPassword, 10);
+
+    // Generate verification token and expiry
     const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
+    const verificationTokenExpiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
 
-    const verificationTokenExpriresAT = Date.now() + 24 * 60 * 60 * 1000;
-    const decryptEmail = key.decrypt(email, "utf8");
+    // Decrypt email
+    const decryptedEmail = key.decrypt(email, "utf8");
+
+    // Create user object
     const user = new User({
-      email: decryptEmail,
+      email: decryptedEmail,
       password: hashedPassword,
       name,
       verificationToken,
-      verificationTokenExpriresAT: verificationTokenExpriresAT,
+      verificationTokenExpiresAt,
     });
 
+    // Save user
     const savedUser = await user.save();
 
+    // Generate token and set cookie for the user
     generateTokenAndSetcookie(res, savedUser._id);
 
+    // Send verification email
     sendVerificationEmail(user.email, verificationToken);
 
-    res.status(200).json({
+    // Send success response
+    return res.status(200).json({
       success: true,
       message: "User created successfully",
       user: {
         ...user._doc,
-        password: undefined,
+        password: undefined, // Don't return the password
       },
     });
   } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
+    console.error("Signup error:", error);
+    return res.status(400).json({ success: false, message: error.message });
   }
 };
 
