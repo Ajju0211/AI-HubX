@@ -7,6 +7,7 @@ import Footer from "../components/InevoComponent/Footer";
 import GetStarted from "../components/InevoComponent/GetStarted";
 import { Outlet } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
+import DashboardPage from './AiPage';
 const InovaAi = () => {
 
   const { checkAuth  } = useAuthStore();
@@ -39,6 +40,7 @@ const InovaAi = () => {
       {/* Footer Section */}
       <Footer />
       <Outlet />
+      <DashboardPage />
     </div>
   );
 };
