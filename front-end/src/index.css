@@ -7,6 +7,8 @@
     background: #000;
     scrollbar-width: none;
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 @layer utilities {
@@ -15,3 +17,4 @@
         display: none;
     }
   }
+  

@@ -103,14 +103,12 @@ function App() {
         <Route
           path="/inova.ai"
           element={
+            
             <ProtectedRoute>
               <AiPage />
             </ProtectedRoute>
           }
         />
-        
-
-        
         {/* catch all routes */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

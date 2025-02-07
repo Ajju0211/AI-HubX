@@ -14,19 +14,19 @@ dotenv.config();
 
 const __dirname = path.resolve();
 const app = express();
+
+app.use(cors({
+  origin: "http://localhost:5173", //"https://inevoai.netlify.app",
+  credentials: true,
+}));
+
 const limiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: 10000, // limit each IP to 100 requests per windowMs
   message: "Too many requests from this IP, please try again after 15 minutes"
 })
 
 app.use(limiter);
-
-app.use(cors({
-    origin: "https://inevoai.netlify.app",
-    credentials: true,
-}));
-
 
 app.use(
   helmet({
@@ -48,13 +48,6 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
 
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../front-end/dist")));
-  
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "../front-end", "dist", "index.html"));
-    });
-  }
 
 const PORT = process.env.PORT || 3000;
 
@@ -67,3 +60,11 @@ app.listen(PORT, () => {
     console.log(`Server is runing ${PORT} ...`)
     connectDB();
 })
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../front-end/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../front-end", "dist", "index.html"));
+  });
+}

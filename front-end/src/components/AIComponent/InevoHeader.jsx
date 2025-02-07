@@ -44,13 +44,13 @@ const InevoHeader = () => {
   };
 
   return (
-    <div className="relative w-full h-16">
+    <div className="relative w-full z-999  border-gray-600  h-5">
       {ErrorMessage && <ErrorMessages /> }
 
       {/* Navbar */}
-      <div className="absolute top-0 left-0 w-full h-14 flex justify-between items-center pr-5 py-4 text-white  border-gray-600 bg-opacity-70 backdrop-blur-md">
+      <div className=" top-0 z-999  left-0 w-full  flex justify-between items-center pr-5 py-4 text-white  border-gray-600  backdrop-blur-md">
         {/* Model Dropdown Section */}
-        <div className="relative flex flex-col items-center gap-2 justify-around rounded-md w-44 pl-6">
+        <div className="relative flex flex-col items-center gap-2 justify-around rounded-md w-48 pl-6">
           <div
             className="flex items-center mt-2 justify-center gap-2 cursor-pointer"
             onClick={handleDropdownToggle}
@@ -62,14 +62,14 @@ const InevoHeader = () => {
           </div>
 
           {isDropdownVisible && (
-            <div className="absolute top-full left-0 w-full mt-2 bg-[#171717] rounded-md shadow-lg border border-gray-700">
+            <div className="absolute top-full left-8 w-full p-2 mt-2 bg-[#292828] rounded-md shadow-lg border border-gray-700">
               {models.map((model) => (
                 <button
                   key={model.id}
                   className="block w-full px-4 py-2 text-left text-white border-b border-zinc-500 hover:bg-gray-700 focus:outline-none"
                   onClick={() => handleModelSelect(model.id)}
                 >
-                  {model.id}
+                  <span className="">{model.id}</span>
                 </button>
               ))}
             </div>

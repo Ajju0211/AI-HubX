@@ -5,11 +5,12 @@ import { useAuthStore } from "../store/authStore";
 import toast from "react-hot-toast";
 
 const EmailVerificationPage = () => {
+
 	const [code, setCode] = useState(["", "", "", "", "", ""]);
 	const inputRefs = useRef([]);
 	const navigate = useNavigate();
 
-	const { error, isLoading, verifyEmail } = useAuthStore();
+	const { error, isLoading, verifyEmail, setScrollHide } = useAuthStore();
 
 	const handleChange = (index, value) => {
 		const newCode = [...code];
@@ -55,20 +56,32 @@ const EmailVerificationPage = () => {
 		}
 	};
 
+	const handleClickOutside = (e) => {
+		if (e.target.classList.contains("absolute")) {
+			setScrollHide(false);
+			navigate("/");
+		}
+	};
+
 	// Auto submit when all fields are filled
 	useEffect(() => {
 		if (code.every((digit) => digit !== "")) {
 			handleSubmit(new Event("submit"));
 		}
+		document.addEventListener("click", handleClickOutside);
+		setScrollHide(true);
+		return () => {
+			setScrollHide(false);
+		}
 	}, [code]);
 
 	return (
-		<div className="flex items-center justify-center min-h-screen bg-gray-900">
+		<div className="click flex items-center justify-center min-h-screen bg-[#0a0a0a] h-screen w-screen absolute bg-opacity-70">
 			<motion.div
 				initial={{ opacity: 0, y: -50 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.5 }}
-				className="bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900 p-8 w-full max-w-md rounded-2xl shadow-2xl"
+				className="bg-gradient-to-br border-[1px] border-[#212121] bg-[#0a0a0a] p-8 w-full max-w-md rounded-2xl shadow-2xl"
 			>
 				<h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-gray-300 to-gray-400 text-transparent bg-clip-text">
 					Verify Your Email
@@ -86,7 +99,7 @@ const EmailVerificationPage = () => {
 								value={digit}
 								onChange={(e) => handleChange(index, e.target.value)}
 								onKeyDown={(e) => handleKeyDown(index, e)}
-								className="w-12 h-12 text-center text-2xl font-bold bg-gray-700 text-gray-200 border-2 border-gray-600 rounded-lg focus:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+								className="w-12 h-12 text-center text-2xl font-bold bg-[#0a0a0a] text-gray-200 border-2 border-gray-600 rounded-lg focus:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
 							/>
 						))}
 					</div>

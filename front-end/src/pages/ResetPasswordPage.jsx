@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,7 +10,7 @@ import FloatingShape from '../components/FloatingShape';
 const ResetPasswordPage = () => {
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
-	const { resetPassword, error, isLoading, message } = useAuthStore();
+	const { resetPassword, error, isLoading, message, setScrollHide } = useAuthStore();
 
 	const { token } = useParams();
 	const navigate = useNavigate();
@@ -35,20 +35,35 @@ const ResetPasswordPage = () => {
 		}
 	};
 
+	const handleClickOutside = (e) => {
+		if (e.target.classList.contains("absolute")) {
+			setScrollHide(false);
+			navigate("/");
+		}
+	};
+
+	useEffect(() => {
+		document.addEventListener("click", handleClickOutside);
+		setScrollHide(true);
+		return () => {
+			setScrollHide(false);
+		}
+	}, []);
+
 	return (
 		<motion.div
 			initial={{ opacity: 0, y: 20 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.5 }}
-			className="absolute inset-0 flex items-center justify-center bg-[#0b0b0b] bg-opacity-80 backdrop-blur-md"
+			className="absolute inset-0 flex items-center justify-center bg-[#070707] bg-opacity-80 backdrop-blur-md"
 		>
 			<FloatingShape />
-			<FloatingShape top="20%"/>
-			<FloatingShape left="50%"/>
+			<FloatingShape top="20%" />
+			<FloatingShape left="50%" />
 			<FloatingShape left="80%" top="50%" />
 			<FloatingShape left="70%" top="80%" />
 			<FloatingShape left="20%" top="0%" />
-			<div className="max-w-md w-full bg-[#202021] border-[1px] border-[#6b6b6b] bg-opacity-90 rounded-2xl shadow-lg overflow-hidden p-8">
+			<div className="click max-w-md w-full bg-[#040405] border-[1px] border-[#414040] bg-opacity-90 rounded-2xl shadow-lg overflow-hidden p-8">
 				<h2 className="text-3xl font-semibold mb-6 text-center text-white">
 					Reset Password
 				</h2>

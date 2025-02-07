@@ -11,15 +11,10 @@ const LoginPage = () => {
 
 	//This is for encrypting the email and password
 
-	const publicKey = `
-`;
-
-
 	const { login, isLoading, error, setScrollHide } = useAuthStore();
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
-
 		await login(email, password);
 	};
 

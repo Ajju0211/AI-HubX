@@ -6,13 +6,13 @@ import FAQ from "../components/InevoComponent/FAQ";
 import Footer from "../components/InevoComponent/Footer";
 import GetStarted from "../components/InevoComponent/GetStarted";
 import { Outlet } from "react-router-dom";
-
-
+import { useAuthStore } from "../store/authStore";
 const InovaAi = () => {
 
-
+  const { checkAuth  } = useAuthStore();
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+
   }, []);
 
 

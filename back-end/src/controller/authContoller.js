@@ -17,6 +17,9 @@ export const login = async (req, res) => {
   console.log("Received Data:", { email, password });
 
   try {
+    if(!email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
     // Decrypt the email and password
 
     // Search user by decrypted email
@@ -73,29 +76,26 @@ export const signup = async (req, res) => {
     // Check if user already exists
     const userAlreadyExists = await User.findOne({ email });
     if (userAlreadyExists) {
-      return res.status(400).json({ message: "User already exists" });
+      if(userAlreadyExists.isVerified) {
+        return res.status(400).json({ message: "User already exists" });
+      }
+      await User.deleteOne({ _id: userAlreadyExists._id }); // Delete user if expired
     }
 
-    // Decrypt password
-    const decryptedPassword = key.decrypt(password, "utf8");
-
     // Hash the password
-    const hashedPassword = await bcryptjs.hash(decryptedPassword, 10);
+    const hashedPassword = await bcryptjs.hash(password, 10);
 
     // Generate verification token and expiry
     const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
-    const verificationTokenExpiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
-
-    // Decrypt email
-    const decryptedEmail = key.decrypt(email, "utf8");
+    const verificationTokenExpriresAT = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
 
     // Create user object
     const user = new User({
-      email: decryptedEmail,
+      email: email,
       password: hashedPassword,
       name,
       verificationToken,
-      verificationTokenExpiresAt,
+      verificationTokenExpriresAT,
     });
 
     // Save user
@@ -126,6 +126,7 @@ export const verifyEmail = async (req, res) => {
   const { code } = req.body;
 
   try {
+    console.log(code);
     // Find user by verification code and ensure the token has not expired
     const user = await User.findOne({
       verificationToken: code,
@@ -166,8 +167,6 @@ export const verifyEmail = async (req, res) => {
     res.status(400).json({ message: error.message || error });
   }
 };
-
-
 
 export const logout = async (req, res) => {
   res.clearCookie("token");

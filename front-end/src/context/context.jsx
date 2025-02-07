@@ -15,7 +15,8 @@ const ContextProvider = (props) => {
     const [oldChat, setOldChat] = useState("");
     const [messageId, setMessageId] = useState("");
     const [oldPrompt, setOldPrompt] = useState("")
-    const [messageList, setMessageList] = useState([]);;
+    const [messageList, setMessageList] = useState([]);
+    const [resLoader, setResLoader] = useState(false);
 
     const formatResponse = (text) => {
         return text
@@ -39,15 +40,15 @@ const ContextProvider = (props) => {
         setLoading(true);
         setShowResult(true);
         setRecentPrompt(prompt);
+        const chat = {
+            chat: prompt,
+            response: '',
+        }
+        setMessageList((prevItems) => [...prevItems, chat]);
         try {
             const responses = await run(prompt);
             setResultData(responses);
             console.log("messageId", messageId);
-            const chat = {
-                chat: prompt,
-                response: "<p>Loading...</p>"
-            }
-            setMessageList((prevItems) => [...prevItems, chat]);
             const id = uuid();
             if (!messageId) {
                 chatResponse(user._id, id, prompt, responses);
@@ -95,7 +96,10 @@ const ContextProvider = (props) => {
         messageId,
         setMessageId,
         messageList,
-        setMessageList
+        setMessageList,
+        resLoader,
+        setResLoader
+
 
     };
 
