@@ -16,7 +16,7 @@ const __dirname = path.resolve();
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:5173", //"https://inevoai.netlify.app",
+  origin: "https://inevoai.netlify.app",
   credentials: true,
 }));
 

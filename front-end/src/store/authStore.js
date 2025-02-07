@@ -2,9 +2,9 @@ import { create } from "zustand";
 import axios from "axios";
 
 // Updated to correct the port number
-const API_URL = import.meta.env.MODE === "development" ? "http://localhost:3000/api/chat" : "/api/auth";
+const API_URL = "https://full-stack-gemini-clone-1.onrender.com/api/auth";
 // "https://full-stack-gemini-clone-1.onrender.com/api/auth";
-const API_URL_CHAT = import.meta.env.MODE === "development" ? "http://localhost:3000/api/chat" : "/api/chat";
+const API_URL_CHAT = "https://full-stack-gemini-clone-1.onrender.com/api/chat";
 // "https://full-stack-gemini-clone-1.onrender.com/api/chat";
 // Ensure credentials are always sent with requests
 axios.defaults.withCredentials = true;
