@@ -169,9 +169,10 @@ export const verifyEmail = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  res.cookie("token", "", { 
+  res.cookie("token", " ", { 
     httpOnly: true, 
     secure: true, 
+    sameSite: "none", // Allow cross-origin requests (if frontend is on a different domain)
     expires: new Date(0) // Expire the cookie immediately
   });
 
