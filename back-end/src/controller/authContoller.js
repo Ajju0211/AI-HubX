@@ -169,7 +169,12 @@ export const verifyEmail = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  res.clearCookie("token", "", { expires: new Date(0) });
+  res.cookie("token", "", { 
+    httpOnly: true, 
+    secure: true, 
+    expires: new Date(0) // Expire the cookie immediately
+  });
+
   res.status(200).json({
     success: true,
     message: "Logged out successfully",
