@@ -4,9 +4,10 @@ import env from 'dotenv'
 
 env.config()
 
+const api_key = process.env.DEEP_SEEK_API;
 const openai = new OpenAI({
         baseURL: 'https://api.deepseek.com',
-        apiKey: process.env.DEEP_SEEK_API
+        apiKey: api_key
 });
 
 export async function getDeepseekAIResponse(prompt) {
