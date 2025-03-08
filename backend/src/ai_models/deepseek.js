@@ -1,9 +1,12 @@
 import OpenAI from "openai/index.mjs";
+import env from 'dotenv'
 
+
+env.config()
 
 const openai = new OpenAI({
         baseURL: 'https://api.deepseek.com',
-        apiKey: "sk-e22ef0aa732d4468a53dbd473e4211ac"
+        apiKey: process.env.DEEP_SEEK_API
 });
 
 export async function getDeepseekAIResponse(prompt) {

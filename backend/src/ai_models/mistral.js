@@ -1,8 +1,10 @@
 import { Mistral } from "@mistralai/mistralai";
+import env from 'dotenv'
 
+env.config()
 // const apiKey = process.env.MISTRAL_API_KEY; s
 
-const client = new Mistral({ apiKey: "UCOZVqfHQHWp87NzaUgb7WCAeFcefYVN" });
+const client = new Mistral({ apiKey: process.env.MISTRAL_AI });
 
 export const getLlamaAiResponse = async (prompt) => {
   

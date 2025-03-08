@@ -1,6 +1,9 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import env from 'dotenv'
 
-const apiKey = "AIzaSyAqakAA5bIMZt2CKcQQ45Javygx4kEp8vY";
+env.config()
+
+const apiKey = process.env.GEMINI_API;
 
 
 export const getGeminiAiResponse = async (prompt) => {

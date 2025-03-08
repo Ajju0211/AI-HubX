@@ -1,6 +1,9 @@
 import axios from "axios"
+import env from 'dotenv'
 
-const api_key = 'SG_2947b8e557ae51d5'; // Replace with your actual API key
+env.config()
+
+const api_key = process.env.SEGMOND_API; // Replace with your actual API key
 const url = 'https://api.segmind.com/v1/llama-v3-8b-instruct';
 
 

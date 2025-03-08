@@ -1,12 +1,16 @@
 import axios from "axios";
+import env from 'dotenv'
 
+env.config()
+
+const api_token = `Bearer ${process.env.EDEN_API_KEY}`
 export const getEdenAiResponse = async (prompt) => {
   const options = {
     method: "POST",
     url: "https://api.edenai.run/v2/text/summarize",
     headers: {
       authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzllYTQxYjMtOTE5Yy00YTMzLTg3MDQtNjM0NTMyMTY2ZTE5IiwidHlwZSI6ImFwaV90b2tlbiJ9.8T_aQO8VgV6cJPYTzU24T4n355GGyW4FE1Q18lVspXQ",
+      api_token,
     },
     data: {
       output_sentences: 3,

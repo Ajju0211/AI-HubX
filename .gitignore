@@ -29,3 +29,4 @@ dist-ssr
 *.sw?
 
 node_modules
+<file_with_secret> # Prevent future tracking
