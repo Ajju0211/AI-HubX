@@ -23,8 +23,11 @@ const models = {
   "Segmind": async (prompt) => await getSegmindAIResponse(prompt),
   "Flux 1.1 (Image)": async (prompt) => await generateImage(prompt)
 };
+
+
 const __dirname = path.resolve();
 const server = http.createServer(app);
+
 const io = new Server(server, {
   cors: {
     origin: process.env.ALLOWED_ORIGIN || "http://localhost:5173",
@@ -56,7 +59,6 @@ io.use(async (socket, next) => {
     return next(new Error("Authentication error: Invalid token"));
   }
 });
-
 
 
 // Socket Connection
