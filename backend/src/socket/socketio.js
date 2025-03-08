@@ -31,7 +31,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ORIGIN_URL,
+    origin: "https://ai-hubx-env.up.railway.app",
     credentials: true,
   },
 });
