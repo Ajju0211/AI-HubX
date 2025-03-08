@@ -1,0 +1,21 @@
+
+services:
+  backend:
+    image: backend
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+  frontend:
+    image: ai-hubx
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
