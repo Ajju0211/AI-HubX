@@ -24,13 +24,14 @@ const models = {
   "Flux 1.1 (Image)": async (prompt) => await generateImage(prompt)
 };
 
+const ORIGIN_URL = process.env.ALLOWED_ORIGIN || "http://localhost:5173"
 
 const __dirname = path.resolve();
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.ALLOWED_ORIGIN || "http://localhost:5173",
+    origin: ORIGIN_URL,
     credentials: true,
   },
 });
