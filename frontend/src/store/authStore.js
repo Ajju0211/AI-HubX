@@ -2,12 +2,12 @@ import { create } from "zustand";
 import axios from "axios";
 import { socket } from "../socket/socket";
 
-// const API_URL = "https://ai-hubx.up.railway.app/api/auth";
+const API_URL = "https://ai-hubx.up.railway.app/api/auth";
 
-// const API_URL_CHAT = "https://ai-hubx.up.railway.app/api/chat";
-const API_URL = "http://localhost:3000/api/auth";
+const API_URL_CHAT = "https://ai-hubx.up.railway.app/api/chat";
+// const API_URL = "http://localhost:3000/api/auth";
 
-const API_URL_CHAT = "http://localhost:3000/api/chat";
+// const API_URL_CHAT = "http://localhost:3000/api/chat";
 
 // Ensure credentials are always sent with requests
 axios.defaults.withCredentials = true;
