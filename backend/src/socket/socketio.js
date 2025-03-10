@@ -25,7 +25,7 @@ const models = {
   "Flux 1.1 (Image)": async (prompt) => await generateImage(prompt)
 };
 
-const ORIGIN_URL = process.env.ALLOWED_ORIGIN ;
+const ORIGIN_URL = "https://ai-hubx-env.up.railway.app/" ;
 
 const __dirname = path.resolve();
 const server = http.createServer(app);
