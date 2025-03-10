@@ -13,8 +13,8 @@ export async function getDeepseekAIResponse(prompt) {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${API_KEY}`,
-        "HTTP-Referer": "<YOUR_SITE_URL>", // Optional
-        "X-Title": "<YOUR_SITE_NAME>", // Optional
+        "HTTP-Referer": "https://ai-hubx.up.railway.app/inova.ai", // Optional
+        "X-Title": "Ai-hubx", // Optional
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
