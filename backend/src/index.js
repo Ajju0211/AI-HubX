@@ -11,12 +11,10 @@ import  { app,server }  from "./socket/socketio.js";
 
 dotenv.config();
 
-
-
+const ORIGIN_URL = process.env.ORIGIN_URL || 'http://localhost:5173';
 
 app.use(cors({
-  origin: 'http://localhost:5173',
- 
+  origin: ORIGIN_URL,
   credentials: true,
 }));
 
@@ -32,12 +30,8 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
-        defaultSrc: ["'self'"],
-        connectSrc: [
-          "'self'",
-          "https://generativelanguage.googleapis.com",
-      
-        ]
+        "default-src": ["'self'"],
+        "connect-src": ["'self'", "*"],  // Allows all connections (Only for debugging)
       }
     }
   })

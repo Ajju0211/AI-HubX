@@ -13,12 +13,11 @@ import { Context } from "../../context/context";
 
 const Sidebar = () => {
   const { setChatIndex, chates } = useAuthStore();
-  const { setResult, setMessageId, messageList, setMessageList } =
-    useContext(Context);
-  const chat = chates ? chates?.data : [];
+  const { setResult, setMessageId, setMessageList } = useContext(Context);
+  const chat =  [...(chates?.data || [])].reverse();
 
   const [isOpen, setIsOpen] = useState(true); // State to handle menu toggle on mobile
-
+  
   const chatHandeler = (messageId, index) => {
     setResult(); // Assuming this is clearing or resetting some state
     setMessageId(messageId); // Set the current messageId
@@ -27,7 +26,6 @@ const Sidebar = () => {
     setMessageList("");
     for (let i = 0; i < chates?.data?.[index].chats.length; i++) {
       const message = chates?.data?.[index]?.chats[i];
-      console.log(message);
       setMessageList((prevItems) => [...prevItems, message]);
     }
   };
@@ -86,7 +84,7 @@ const Sidebar = () => {
                     }}
                     className="w-full flex h-auto items-center px-2 py-2 hover:bg-[#2f2f2f] rounded-[10px]"
                   >
-                    <span className="text-[#eae7e7] text-[1em] font-light truncate max-w-xs">
+                    <span className="text-[#eae7e7] text-[1em] font-medium font-sans truncate max-w-xs">
                       {chat.chats?.[0]?.chat.split(" ").slice(0, 6).join(" ") +
                         (chat.chats?.[0]?.chat.split(" ").length > 6
                           ? "..."

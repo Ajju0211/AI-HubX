@@ -3,14 +3,14 @@ import env from 'dotenv'
 
 env.config()
 
-const api_token = `Bearer ${process.env.EDEN_API_KEY}`
+const api_token = process.env.EDEN_API_KEY;
 export const getEdenAiResponse = async (prompt) => {
   const options = {
     method: "POST",
     url: "https://api.edenai.run/v2/text/summarize",
     headers: {
       authorization:
-      api_token,
+      `Bearer ${api_token}`,
     },
     data: {
       output_sentences: 3,

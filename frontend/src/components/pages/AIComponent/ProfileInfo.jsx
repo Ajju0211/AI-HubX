@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { User, Settings, ArrowUpRight, LogOut } from "lucide-react";
 import { assets } from "../../../assets/assets";
 import { useAuthStore } from "../../../store/authStore";
+import { FaUserCircle } from "react-icons/fa";
 
 const Profile = () => {
   const { user, logout } = useAuthStore();
@@ -23,11 +24,7 @@ const Profile = () => {
       <ul className="p-3 space-y-2">
         {/* Profile Section */}
         <li className="flex items-center gap-3 px-4 py-2">
-          <img
-            src={profile?.profilePicture}
-            alt="User Icon"
-            className="w-10 h-10 rounded-full border border-gray-500"
-          />
+        <FaUserCircle className="text-3xl hover:border-[2px] hover:border-[#908e8e] hover:rounded-2xl text-white" />
           <div>
             <p className="text-sm font-semibold">{profile?.name}</p>
             <p className="text-xs text-gray-400">{profile?.email}</p>

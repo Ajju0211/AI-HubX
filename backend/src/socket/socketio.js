@@ -11,20 +11,21 @@ import { getLlamaAiResponse } from "../ai_models/mistral.js";
 import { getSegmindAIResponse } from "../ai_models/segmind.js";
 import { getDeepseekAIResponse } from "../ai_models/deepseek.js"
 import { generateImage  } from '../ai_models/imageAI.js'
-
+import { getQwenAIResponse } from '../ai_models/qwenAI.js'
 dotenv.config();
 const app = express();
 
 const models = {
   "Gemini": async (prompt) => await getGeminiAiResponse(prompt),
+  "Qwen: QwQ 32B": async (prompt) => await getQwenAIResponse(prompt),
   "EdenAi": async (prompt) => await getEdenAiResponse(prompt),
-  "": async (prompt) => await getDeepseekAIResponse(prompt),
+  "Deepseek r1": async (prompt) => await getDeepseekAIResponse(prompt),
   "Llama 30B": async (prompt) => await getLlamaAiResponse(prompt),
   "Segmind": async (prompt) => await getSegmindAIResponse(prompt),
   "Flux 1.1 (Image)": async (prompt) => await generateImage(prompt)
 };
 
-const ORIGIN_URL = process.env.ALLOWED_ORIGIN || "http://localhost:5173"
+const ORIGIN_URL = process.env.ALLOWED_ORIGIN || "http://localhost:5173/";
 
 const __dirname = path.resolve();
 const server = http.createServer(app);

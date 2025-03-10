@@ -1,20 +1,36 @@
-import OpenAI from "openai/index.mjs";
-import env from 'dotenv'
 
 
-env.config()
+import fetch from "node-fetch";
+import dotenv from "dotenv";
 
-const api_key = process.env.DEEP_SEEK_API;
-const openai = new OpenAI({
-        baseURL: 'https://api.deepseek.com',
-        apiKey: api_key
-});
+dotenv.config();
+
+const API_KEY = process.env.DEEP_SEEK_API; // Store your API key in a .env file?
 
 export async function getDeepseekAIResponse(prompt) {
-  const completion = await openai.chat.completions.create({
-    messages: [{ role: "system", content: prompt }],
-    model: "deepseek-chat",
-  });
+  try {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${API_KEY}`,
+        "HTTP-Referer": "<YOUR_SITE_URL>", // Optional
+        "X-Title": "<YOUR_SITE_NAME>", // Optional
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "deepseek/deepseek-r1-zero:free",
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
 
-  return 'Not have Subscription plane' //  completion.choices[0].message.content
+    if (!response.ok) {
+      throw new Error(`API request failed: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.choices?.[0]?.message?.content || "Deepseek server is down...";
+  } catch (error) {
+    console.error("Error:", error.message);
+    return "An error occurred while fetching the response.";
+  }
 }

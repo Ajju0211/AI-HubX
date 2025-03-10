@@ -25,13 +25,12 @@ const Main = () => {
     <div className="main h-[100%] w-[100%] bg-[#212121] flex flex-col justify-center items-center">
       {/* Header */}
       <AiHubHeader />
-
       {/* Main Content */}
-      <div className="flex flex-col items-center h-[90%] justify-center font-sans antialiased text-base leading-relaxed tracking-normal  flex-grow w-full xl:w-[60%] sm:w-[80%] md:w-[80%]  2xl:w-[40%] px-4 py-6">
+      <div className="flex flex-col items-center h-[90%] justify-center font-sans antialiased text-base leading-relaxed tracking-normal  flex-grow w-full  max-w-3xl  px-8 py-6">
         <div className="main- content flex flex-col items-center justify-center bg-transparent  font-sans antialiased text-base leading-relaxed tracking-normal w-full h-full flex-grow overflow-auto py-2 rounded-lg">
           {/* Greeting or Chat UI */}
           {!showResult ? (
-            <div className="greeting text-white text-center mt-8">
+            <div className="greeting text-white mb-9 text-center mt-8">
               <h2 className="text-3xl font-sans">
                 Hello,{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-[#7460d6] animate-gradient-flash bg-[length:400%_200%]">
@@ -49,16 +48,18 @@ const Main = () => {
               {messageList.map((item, index) => (
                 <div
                   key={index}
-                  className="chat-item  font-sans antialiased text-md leading-relaxed tracking-normal flex flex-col w-full "
+                  className="chat-item  font-sans antialiased text-md leading-relaxed tracking-normal gap-6 flex flex-col w-full "
                 >
                   {/* User Message */}
-                  <div className="flex h-[80%] justify-end">
-                    <div className="bg-[#343434] text-white font-light text-md p-3 px-6 rounded-2xl">
-                      {<p className="text-md">{item.chat}</p>}
+        
+                    <div className="flex mt-7 h-auto   text-pretty text-ellipsis justify-end">
+                      <div className="bg-[#343434] h-auto  text-white  text-start whitespace-pre-wrap text-sn py-3 px-4 font-normal rounded-[22px]">
+                        {<p className="text-md text-start max-w-xl">{item.chat}</p>}
+                      </div>
                     </div>
-                  </div>
+         
                   {/* AI Response */}
-                  <div className="flex font-sans text-xl justify-start items-start">
+                  <div className="flex text-pretty font-sans text-xl mb-14 justify-start items-start">
                     <ChatResponse response={item.response} />
                   </div>
                 </div>
@@ -69,11 +70,9 @@ const Main = () => {
         </div>
 
         {/* Input Section */}
-        
       </div>
-
       <p className="text-[#939191] absolute bottom-2 text-[10px] md:text-md mb-2">
-        InevoAi can make mistakes. Check important info
+        Ai-hubx can make mistakes. Check important info
       </p>
     </div>
   );
