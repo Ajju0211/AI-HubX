@@ -37,7 +37,7 @@ const RedirectAuthenticatedUser = ({ children }) => {
 
   // If authenticated and verified, redirect to home page
   if (isAuthenticated && user.isVerified) {
-    return <Navigate to="/inova.ai" replace />;
+    return <Navigate to="/Ai-HubX" replace />;
   }
 
   return children;
