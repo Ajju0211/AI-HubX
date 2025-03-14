@@ -13,7 +13,7 @@ const Header = () => {
     Navigate('/signup');
   }
   return (
-    <header className={`w-full py-4 px-6 flex justify-between h-16 z-50  fixed items-center bg-black text-[#e5e4e4] shadow-md`}>
+    <header className={`w-full py-4 backdrop-blur-md  bg-slate-950/30 px-6 flex justify-between h-16 z-50  fixed items-center  text-[#e5e4e4] shadow-md`}>
       {/* Logo */}
       <h1 className="text-2xl font-bold">AI-HubX</h1>
       

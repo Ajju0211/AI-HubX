@@ -37,7 +37,7 @@ const RedirectAuthenticatedUser = ({ children }) => {
 
   // If authenticated and verified, redirect to home page
   if (isAuthenticated && user.isVerified) {
-    return <Navigate to="/Ai-HubX" replace />;
+    return <Navigate to="/aihub.ai" replace />;
   }
 
   return children;
@@ -102,7 +102,7 @@ function App() {
         
         </Route>
         <Route
-          path="/inova.ai"
+          path="/aihub.ai"
           element={
             
             <ProtectedRoute>

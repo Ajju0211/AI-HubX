@@ -16,6 +16,7 @@ const LoginPage = () => {
 	const handleLogin = async (e) => {
 		e.preventDefault();
 		await login(email, password);
+		navigate('/aihub.ai')
 	};
 
 	const handleClickOutside = (e) => {

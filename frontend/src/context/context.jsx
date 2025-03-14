@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import run from "../config/gemini.js";
+import run from "../config/modelResponse.js";
 import { useAuthStore } from "../store/authStore.js";
 import { v4 as uuid } from "uuid";
 

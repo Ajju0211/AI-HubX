@@ -10,7 +10,7 @@ const GetStarted = () => {
     Navigate('/signup');
   }
   return (
-    <div className="w-full  mb-8 min-h-[300px] bg-black text-[#e5e4e4] flex flex-col items-center justify-center px-4 py-16">
+    <div className="w-full  mb-8 min-h-[300px] bg-black text-[#e5e4e4] flex flex-col items-center justify-center  py-16">
       <div className=' border-[1px] min-h-[300px] p-4 w-[80%] rounded-md ml-4 mr-4 relative'>
       <div className="max-w-4xl mx-auto text-center space-y-6">
         <h1 className="text-4xl md:text-5xl font-bold leading-tight">

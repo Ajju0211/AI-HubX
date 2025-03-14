@@ -15,6 +15,7 @@ export async function getQwenAIResponse(prompt) {
     const completion = await openai.chat.completions.create({
       messages: [{ role: "user", content: prompt }],
       model: "qwen/qwq-32b",
+      
     });
 
     return completion.choices[0]?.message?.content || "No response received.";
