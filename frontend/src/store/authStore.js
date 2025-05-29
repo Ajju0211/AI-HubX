@@ -2,9 +2,9 @@ import { create } from "zustand";
 import axios from "axios";
 import { socket } from "../socket/socket";
 
-const API_URL = import.meta.env.ENV === 'production' ? `${import.meta.env.API_URL}/api/auth` :  "http://localhost:3000/api/auth";
+const API_URL = import.meta.env.ENV === 'production' ? `${import.meta.env.API_URL}/api/auth` :  "https://ai-hubx.up.railway.app/api/auth";
 
-const API_URL_CHAT =  import.meta.env.ENV === 'production' ?  `${import.meta.env.API_URL}/api/chat` : "http://localhost:3000/api/chat";
+const API_URL_CHAT =  import.meta.env.ENV === 'production' ?  `${import.meta.env.API_URL}/api/chat` : "https://ai-hubx.up.railway.app/api/chat";
 // const API_URL = "http://localhost:3000/api/auth";
 
 // const API_URL_CHAT = "http://localhost:3000/api/chat";
