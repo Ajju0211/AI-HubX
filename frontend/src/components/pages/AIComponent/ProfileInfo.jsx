@@ -30,7 +30,7 @@ const Profile = () => {
             <p className="text-xs text-gray-400">{profile?.email}</p>
           </div>
         </li>
-
+        
         <hr className="border-gray-700" />
 
         {/* Settings */}

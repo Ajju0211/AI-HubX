@@ -9,17 +9,25 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "../../store/authStore";
 import { useContext } from "react";
+import { v4 as uuid } from "uuid";
 import { Context } from "../../context/context";
 
 const Sidebar = () => {
   const { setChatIndex, chates } = useAuthStore();
-  const { setResult, setMessageId, setMessageList } = useContext(Context);
+  const { setResult, setMessageId,showResult, setMessageList } = useContext(Context);
   const chat =  [...(chates?.data || [])].reverse();
 
   const [isOpen, setIsOpen] = useState(true); // State to handle menu toggle on mobile
+
+  const createNewChat = () => {
+    const id = uuid()
+    setMessageId(id)
+    setResult();
+    setMessageList([]);
+  }
   
   const chatHandeler = (messageId, index) => {
-    setResult(); // Assuming this is clearing or resetting some state
+    setResult(true); //  this is clearing or resetting some state
     setMessageId(messageId); // Set the current messageId
     setChatIndex(index); // Set the current chat index
     // Extract the chat messages based on the provided index and messageId
@@ -49,7 +57,7 @@ const Sidebar = () => {
       </button>
 
       <div
-        className={`absolute sm:relative h-full w-64 overflow-hidden flex-col justify-between border-r border-gray-700 p-4 bg-[#171717] transform transition-all duration-300 ease-in-out ${
+        className={`absolute md:relative h-full w-64 overflow-hidden flex-col justify-between border-r border-gray-700 p-4 bg-[#171717] transform transition-all duration-300 ease-in-out ${
           isOpen
             ? "translate-x-0 opacity-100 "
             : "-translate-x-full opacity-0 pointer-events-none"
@@ -67,7 +75,7 @@ const Sidebar = () => {
         </div>
 
         {/* New Chat Button */}
-        <button className="w-full flex items-center justify-start px-4 py-2 mb-4 text-gray-100 rounded-md border border-gray-700 hover:bg-gray-800">
+        <button onClick={createNewChat} className="w-full flex items-center justify-start px-4 py-2 mb-4 text-gray-100 rounded-md border border-gray-700 hover:bg-gray-800">
           <Plus className="h-5 w-5 mr-2" />
           New Chat
         </button>

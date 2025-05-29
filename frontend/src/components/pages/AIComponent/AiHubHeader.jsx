@@ -62,11 +62,11 @@ const AiHubHeader = () => {
 
           { isDropdownVisible && (
         
-            <div className="absolute z-999 top-full left-8 w-[200px] sm:w-[250px] p-2 mt-2 bg-[#292828] rounded-md shadow-lg border border-gray-700">
+            <div style={{zIndex: 70}} className="absolute z-999 top-full left-8 w-[200px] sm:w-[250px] p-2 mt-2 bg-[#292828] rounded-md shadow-lg border border-gray-700">
               {models.map((model) => (
                 <button
                   key={model.id}
-                  className="block w-full px-4 py-2 text-left text-white border border-zinc-500 hover:bg-gray-700 focus:outline-none"
+                  className="block z-50 w-full px-4 py-2 text-left text-white border border-zinc-500 hover:bg-gray-700 focus:outline-none"
                   onClick={() => handleModelSelect(model.id)}
                 >
                   <span className="text-sm sm:text-xl">{model.id}</span>

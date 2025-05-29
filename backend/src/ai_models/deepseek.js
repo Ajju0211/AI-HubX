@@ -31,6 +31,6 @@ export async function getDeepseekAIResponse(prompt) {
     return data.choices?.[0]?.message?.content || "Deepseek server is down...";
   } catch (error) {
     console.error("Error:", error.message);
-    return "An error occurred while fetching the response.";
+    return "The Deepseek server is currently unavailable, or your account has insufficient credits.";
   }
 }

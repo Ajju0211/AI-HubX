@@ -75,8 +75,8 @@ const ContextProvider = (props) => {
         }
     };
 
-    const setResult = () => {
-        setShowResult(true);
+    const setResult = (state) => {
+        setShowResult(state);
     }
 
     const contextValue = {

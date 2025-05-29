@@ -130,7 +130,6 @@ export const useAuthStore = create((set) => ({
   chatResponse: async (user_id, messageId, chat, response) => {
     try {
       const res = await axios.post(`${API_URL_CHAT}/chat-response`, { user_id, messageId, chat, response });
-      console.log(res.data);
     } catch (error) {
       set({
         isLoading: false,

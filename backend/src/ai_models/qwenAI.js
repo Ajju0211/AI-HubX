@@ -21,7 +21,7 @@ export async function getQwenAIResponse(prompt) {
     return completion.choices[0]?.message?.content || "No response received.";
   } catch (error) {
     console.error("Error:", error);
-    return "Error fetching response.";
+    return "The Qwen server is currently unavailable, or your account has insufficient credits.";
   }
 }
 getQwenAIResponse("What is the meaning of life?")

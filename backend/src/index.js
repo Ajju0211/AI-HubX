@@ -11,7 +11,7 @@ import  { app,server }  from "./socket/socketio.js";
 
 dotenv.config();
 
-const ORIGIN_URL = process.env.ORIGIN_URL || 'http://localhost:5173';
+const ORIGIN_URL = process.env.ALLOWED_ORIGIN || 'http://localhost:5173';
 
 app.use(cors({
   origin: ORIGIN_URL,

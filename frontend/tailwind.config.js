@@ -8,6 +8,9 @@ export default {
   // tailwind.config.js
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+      },
       animation: {
         'gradient-flash': 'gradientFlash 3s infinite',
       },

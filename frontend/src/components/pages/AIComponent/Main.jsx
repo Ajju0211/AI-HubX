@@ -26,8 +26,8 @@ const Main = () => {
       {/* Header */}
       <AiHubHeader />
       {/* Main Content */}
-      <div className="flex flex-col items-center h-[90%] justify-center font-sans antialiased text-base leading-relaxed tracking-normal  flex-grow w-full  max-w-3xl  px-8 py-6">
-        <div className="main- content flex flex-col items-center justify-center bg-transparent  font-sans antialiased text-base leading-relaxed tracking-normal w-full h-full flex-grow overflow-auto py-2 rounded-lg">
+      <div className="flex flex-col items-center h-[90%] justify-center font-sans antialiased text-base leading-relaxed tracking-normal  flex-grow w-full  max-w-4xl  px-8 py-6">
+        <div className=" content flex flex-col items-center justify-center bg-transparent  font-sans antialiased text-base leading-relaxed tracking-normal w-full h-full flex-grow overflow-auto py-2 rounded-lg">
           {/* Greeting or Chat UI */}
           {!showResult ? (
             <div className="greeting text-white mb-9 text-center mt-8">
@@ -48,19 +48,20 @@ const Main = () => {
               {messageList.map((item, index) => (
                 <div
                   key={index}
-                  className="chat-item  font-sans antialiased text-md leading-relaxed tracking-normal gap-6 flex flex-col w-full "
+                  className="chat-item  font-sans antialiased text-md leading-relaxed tracking-normal gap-2 flex flex-col w-full "
                 >
                   {/* User Message */}
         
-                    <div className="flex mt-7 h-auto   text-pretty text-ellipsis justify-end">
-                      <div className="bg-[#343434] h-auto  text-white  text-start whitespace-pre-wrap text-sn py-3 px-4 font-normal rounded-[22px]">
+                    <div className="flex mt-4 h-auto   text-pretty text-ellipsis justify-end">
+                      <div className="bg-[#343434] h-auto  text-white text-ellipsis  text-center whitespace-pre-wrap py-3 px-4 font-normal rounded-l-[16px] rounded-br-[14px]">
                         {<p className="text-md text-start max-w-xl">{item.chat}</p>}
                       </div>
                     </div>
          
                   {/* AI Response */}
-                  <div className="flex text-pretty font-sans text-xl mb-14 justify-start items-start">
+                  <div className="flex text-pretty w-full flex-col font-sans text-xl mb-14 justify-start items-start">
                     <ChatResponse response={item.response} />
+                   
                   </div>
                 </div>
               ))}
