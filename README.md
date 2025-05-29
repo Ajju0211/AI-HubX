@@ -1,4 +1,4 @@
-![ScreenShot](./screenshots/Screenshot 2025-05-29 at 6.23.03 PM.png)
+![ScreenShot](./screenshots/main.png)
 # 🧠 AI-hubX
 
 AI-hubX is a full-stack platform built to help students and teachers access multiple AI models from a single interface — **without login barriers**. It’s designed for ease of use, fast response, and centralized access to a variety of AI tools.
