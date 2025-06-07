@@ -67,7 +67,7 @@ function App() {
           }
         >
           <Route
-          path="/api/auth/reset-password/:token"
+          path="/reset-password/:token"
           element={
             <RedirectAuthenticatedUser>
               <ResetPasswordPage />

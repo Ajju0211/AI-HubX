@@ -55,7 +55,7 @@ const ResetPasswordPage = () => {
 			initial={{ opacity: 0, y: 20 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.5 }}
-			className="absolute inset-0 flex items-center justify-center bg-[#070707] bg-opacity-80 backdrop-blur-md"
+			className="fixed z-30 inset-0 flex items-center justify-center bg-opacity-80 backdrop-blur-md"
 		>
 			<FloatingShape />
 			<FloatingShape top="20%" />
