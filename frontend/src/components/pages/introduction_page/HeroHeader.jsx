@@ -1,28 +1,26 @@
-import React from 'react';
+import { BrainCircuit, ComputerIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
-  const Navigate = useNavigate();
-
-
-  const handleLogin = () => {
-    Navigate('/login');
-  }
+  const navigate = useNavigate();
 
   const handleSignUp = () => {
-    Navigate('/signup');
+    navigate('/signup');
   }
+
   return (
-    <header className={`w-full py-4 backdrop-blur-md  bg-slate-950/30 px-6 flex justify-between h-16 z-50  fixed items-center  text-[#e5e4e4] shadow-md`}>
+    <header className="max-w-7xl  mx-auto w-full backdrop-blur-md sticky bg-slate-950/30  flex justify-between h-16 z-50 items-center text-[#e5e4e4] shadow-md">
       {/* Logo */}
-      <h1 className="text-2xl font-bold">AI-HubX</h1>
-      
+      <div className='flex cursor-pointer items-center justify-center gap-2'>
+      <BrainCircuit size={24} />
+      <h1 className="text-2xl font-bold">AI-HubX</h1></div>
+
       {/* Navigation Buttons */}
       <div className="flex items-center gap-4">
-        <button onClick={handleLogin} className="px-4 py-2 text-sm font-medium rounded-3xl transition duration-300 hover:bg-opacity-80  hover:text-[#333]">
-          Login
-        </button>
-        <button onClick={handleSignUp} className="px-5 py-2 text-sm font-semibold rounded-3xl bg-white text-black  hover:bg-[#333] hover:text-white transition">
+        <button
+          onClick={handleSignUp}
+          className="px-5 py-2 text-sm font-semibold rounded-3xl bg-white text-black hover:bg-[#333] hover:text-white transition"
+        >
           Get Started
         </button>
       </div>

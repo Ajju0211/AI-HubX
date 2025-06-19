@@ -1,57 +1,92 @@
+
+import { Brain, Bot, Cpu, Image, Zap, Layers, Sparkles, MessageSquare } from "lucide-react";
 import React from "react";
-import { FaBrain, FaRobot, FaCode, FaImage, FaMicrochip } from "react-icons/fa";
-import { MdMemory } from "react-icons/md";
-import { motion } from "framer-motion";
+import { cn } from "../../../lib/utils";
+import { Spotlight } from "../../layout/Spotlight";
+
 
 const models = [
-  { id: "Gemini", description: "Google's powerful AI model for reasoning and creativity.", icon: <FaBrain className="text-gray-100 hover:text-blue-500" size={50} /> },
-  { id: "EdenAi", description: "A multi-functional AI API platform for developers.", icon: <FaRobot className="hover:text-green-500 text-gray-100" size={50} /> },
-  { id: "Qwen: QwQ 32B", description: "High-performance language model for advanced tasks.", icon: <FaMicrochip className="hover:text-purple-500 text-gray-100" size={50} /> },
-  { id: "Llama 30B", description: "Meta's large-scale AI model for diverse applications.", icon: <MdMemory className="hover:text-orange-500 text-gray-100" size={50} /> },
-  { id: "Deepseek r1", description: "Efficient AI model specialized in deep analysis.", icon: <FaMicrochip className="hover:text-red-500 text-gray-100" size={50} /> },
-  { id: "Flux 1.1 (Image)", description: "Image generation AI with advanced creative capabilities.", icon: <FaImage className="hover:text-pink-500 text-gray-100" size={50} /> },
+  { 
+    id: "Gemini", 
+    icon: Sparkles
+  },
+  { 
+    id: "ChatGPT", 
+    icon: MessageSquare
+  },
+  { 
+    id: "Claude", 
+    icon: Brain
+  },
+  { 
+    id: "Llama", 
+    icon: Layers
+  },
+  { 
+    id: "Midjourney", 
+    icon: Image
+  },
+  { 
+    id: "Qwen", 
+    icon: Cpu
+  },
+  { 
+    id: "Deepseek", 
+    icon: Zap
+  },
+  { 
+    id: "Flux", 
+    icon: Bot
+  }
 ];
 
 const AIModels = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-      className="min-h-full m-6 bg-transparent flex items-center justify-center p-8"
-    >
-      <div className="max-w-5xl place-items-center w-full">
-        <h2 className="text-2xl md:text-5xl font-extrabold text-white text-center mb-12 tracking-wide  bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
-          Ai Models
-        </h2>
-        <p className="text-gray-300 text-lg text-center max-w-2xl mb-12">
-        Experience the next generation of AI models designed for creativity, automation, and intelligence.
-      </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 place-items-center">
-          {models.map((model, index) => (
-            <div
-              key={model.id}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              whileTap={{ scale: 0.9 }}
-              className="bg-transparent p-8 rounded-3xl flex flex-col items-center justify-center shadow-2xl transition transform hover:shadow-xl border border-gray-700 hover:border-white hover:bg-gray-700"
-            >
-              
-                {model.icon}
-              <motion.p 
-                className="text-white mt-4 font-semibold text-center text-lg"
-                whileHover={{ scale: 1.05, color: "#ffffff" }}
+    <div className="w-full py-6 px-4 ">
+      <div className="relative flex h-[40rem] w-full overflow-hidden rounded-md bg-black/[0.96] antialiased md:items-center md:justify-center">
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-0 [background-size:40px_40px] select-none",
+          "[background-image:linear-gradient(to_right,#171717_1px,transparent_1px),linear-gradient(to_bottom,#171717_1px,transparent_1px)]",
+        )}
+      />
+ 
+      <Spotlight
+        className="-top-40 left-0 md:-top-20 md:left-60"
+        fill="white"
+      />
+      <div className="relative z-10 mx-auto w-full max-w-7xl p-4 pt-20 md:pt-0">
+        <h1 className="bg-opacity-50 bg-gradient-to-b from-neutral-50 to-neutral-400 bg-clip-text text-center text-4xl font-bold text-transparent md:text-7xl">
+          ALL THE MODELS <br/> YOU WILL EVER NEED
+        </h1>
+        <p className="mx-auto mt-4 max-w-lg text-center text-base font-normal text-neutral-300">
+          Leveraging cutting-edge artificial intelligence from industry leaders to deliver exceptional performance, creativity, and intelligent automation across all your projects.
+          copy.
+        </p>
+      </div>
+    </div>
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6">
+          {models.map((model) => {
+            const IconComponent = model.icon;
+            return (
+              <div
+                key={model.id}
+                className="group flex items-center space-x-3 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-300 cursor-pointer border border-white/10 hover:border-white/20 backdrop-blur-sm"
               >
-                {model.id}
-              </motion.p>
-              <p className="text-gray-400 text-sm text-center mt-2">{model.description}</p>
-            </div>
-          ))}
+                <IconComponent 
+                  size={28} 
+                  className="text-gray-300 group-hover:text-white group-hover:scale-110 transition-all duration-300"
+                />
+                <span className="text-white text-sm font-medium whitespace-nowrap group-hover:text-gray-200 transition-colors duration-300">
+                  {model.id}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

@@ -53,12 +53,8 @@ function App() {
     checkAuth();
   }, [checkAuth]);
 
-  if (isCheckingAuth) return <LoadingSpinner />;
-
-
-
   return (
-    <div className={`bg-black ${scrollHide ? 'h-screen w-screen overflow-hidden': '' }  `}>
+    <div className={`bg-black ${scrollHide ? 'h-screen w-full overflow-hidden': '' }  `}>
       <Routes>
         <Route
           path="/"
