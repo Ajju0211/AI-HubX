@@ -70,7 +70,7 @@ npm run start
 ```
 **🌐 Live Demo**
 
-[🔗 LIVE DEMO](https://ai-hub-h4lj6qtmj-ajju0211s-projects.vercel.app/)
+[🔗 LIVE DEMO](https://ai-hub-x.vercel.app/login)
 
 ---
 
